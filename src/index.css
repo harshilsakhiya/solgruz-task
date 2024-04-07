@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.ant-tabs-nav-list{
+    @apply w-full
+  }
+  .ant-tabs-ink-bar,
+  .ant-tabs-nav:before{
+    @apply hidden
+  }
+  .ant-tabs-nav-list{
+    @apply bg-[#f0f5ff] rounded-lg
+  }
+  .ant-tabs-tab{
+    @apply w-1/2 flex justify-center !bg-[#f0f5ff] !m-0
+  }
+  .ant-tabs-tab.ant-tabs-tab-active{
+    @apply !bg-[#283791] rounded-lg
+  }
+  .ant-tabs-tab .ant-tabs-tab-btn{
+    @apply !text-[#848997] text-lg
+  }
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    @apply !text-white
+  }
