@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Input, Button } from "antd";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthServices from "../services/authServices";
 
@@ -8,7 +7,6 @@ function SignUp({setLoginKey}) {
   const [inputValue, setInputValue] = useState({});
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -51,7 +51,7 @@ function SignIn() {
         if (res?.success === true) {
           localStorage.setItem("token", res?.data?.token);
           toast.success(res?.message);
-          navigate("/");
+          navigate("/dashboard");
           setLoading(false);
         } else {
           toast.error(res?.message);

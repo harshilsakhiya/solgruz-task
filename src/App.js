@@ -3,7 +3,19 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import VerifyOtp from "./components/VerifyOtp";
 import AuthLayout from "./components/layout/AuthLayout";
+import Layout from "./components/layout/Layout";
 import SignInSignUp from "./pages/SIgnInSIgnUp";
+import Dashboard from "./pages/dashboard";
+import PublicRoute from "./helper/PublicRoute";
+import PrivateRoute from "./helper/PrivateRoute";
+
+const withPrivacy = (component) => {
+  return <PrivateRoute component={component} />;
+};
+
+const withoutPrivacy = (component) => {
+  return <PublicRoute component={component} />;
+};
 
 function App() {
   return (
@@ -11,10 +23,19 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AuthLayout />}>
-            <Route path="/" element={<SignInSignUp />} />
-            <Route path="/verify-otp" element={<VerifyOtp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/" element={withoutPrivacy(SignInSignUp)} />
+            <Route path="/verify-otp" element={withoutPrivacy(VerifyOtp)} />
+            <Route
+              path="/forgot-password"
+              element={withoutPrivacy(ForgotPassword)}
+            />
+            <Route
+              path="/reset-password"
+              element={withoutPrivacy(ResetPassword)}
+            />
+          </Route>
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={withPrivacy(Dashboard)} />
           </Route>
         </Routes>
       </BrowserRouter>
