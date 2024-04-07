@@ -5,10 +5,10 @@ import AuthServices from "../services/authServices";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 function SignIn() {
   const [inputValue, setInputValue] = useState({});
   const [errors, setErrors] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -45,17 +45,21 @@ function SignIn() {
 
   const userSignIn = async () => {
     if (validateForm()) {
+      setLoading(true);
       try {
         const res = await AuthServices.signIn(inputValue);
         if (res?.success === true) {
           localStorage.setItem("token", res?.data?.token);
-          toast.success("login successfully");
-          // navigate("/dashboard");
+          toast.success(res?.message);
+          navigate("/");
+          setLoading(false);
         } else {
           toast.error(res?.message);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
   };
@@ -91,6 +95,7 @@ function SignIn() {
       </div>
       <Button
         type="primary"
+        disabled={loading}
         className="bg-[#283791] h-10 text-lg rounded-full"
         onClick={userSignIn}
       >

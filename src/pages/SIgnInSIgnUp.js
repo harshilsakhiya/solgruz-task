@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs } from "antd";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
 function SignInSignUp() {
+  const [loginKey, setLoginKey] = useState()
   const items = [
     {
       key: "1",
@@ -19,7 +20,9 @@ function SignInSignUp() {
       label: "Sign Up",
       children: (
         <div>
-          <SignUp />
+          <SignUp
+          setLoginKey={setLoginKey}
+          />
         </div>
       ),
     },
@@ -28,7 +31,7 @@ function SignInSignUp() {
     <>
       <div className="w-1/2 mx-auto my-10 pt-14">
         <div className="bg-white p-12">
-          <Tabs defaultActiveKey="1" items={items} />
+          <Tabs defaultActiveKey="1" items={items} onChange={(value) => setLoginKey(value)} activeKey={loginKey} />
         </div>
       </div>
     </>
