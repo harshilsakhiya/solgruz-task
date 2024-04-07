@@ -76,7 +76,11 @@ function AddEditDrawer({
           data === undefined
             ? await ArtistServices.addArtiest(Artist)
             : await ArtistServices.updateArtiest(Artist, data?._id);
+
         if (res?.success === true) {
+          setInputValue({});
+          setCoverImage("");
+          setRoleChecked(false);
           setEditFlag?.(true);
           toast.success(res?.message);
           setLoading(false);
@@ -162,6 +166,9 @@ function AddEditDrawer({
             onClick={() => {
               setOpen(false);
               setArtiestInfoData?.("");
+              setInputValue({});
+              setCoverImage("");
+              setRoleChecked(false);
             }}
           >
             Cancel

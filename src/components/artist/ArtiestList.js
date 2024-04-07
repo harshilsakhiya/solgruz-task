@@ -5,7 +5,7 @@ import ArtistServices from "../../services/artistServices";
 import ViewDrawer from "../drawer/ViewDrawer";
 import AddEditDrawer from "../drawer/AddEditDrawer";
 
-export default function ArtiestList() {
+export default function ArtiestList({ addFlag }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [artiestInfoData, setArtiestInfoData] = useState();
@@ -20,10 +20,11 @@ export default function ArtiestList() {
   });
 
   useEffect(() => {
-    if (editFlag) {
+    if (addFlag || editFlag) {
       fetchData();
+      setEditFlag(false);
     }
-  }, [editFlag]);
+  }, [editFlag ,addFlag]);
 
   useEffect(() => {
     fetchData();

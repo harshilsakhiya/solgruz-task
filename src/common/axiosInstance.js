@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   config.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-  config.headers["Content-Type"] = "application/json";
+  config.headers["Content-Type"] = config.headers["Content-Type"] ?? "application/json";
 
   return config;
 });

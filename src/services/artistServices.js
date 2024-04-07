@@ -4,7 +4,11 @@ import axiosInstance from "../common/axiosInstance";
 class ArtistServices {
   static addArtiest = async (data) => {
     try {
-      const res = await axiosInstance.post("/artist", data);
+      const res = await axiosInstance.post("/artist", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return successHandler(res);
     } catch (error) {
       return errorHandler(error);
@@ -12,7 +16,11 @@ class ArtistServices {
   };
   static updateArtiest = async (data, id) => {
     try {
-      const res = await axiosInstance.put(`/artist/${id}`, data);
+      const res = await axiosInstance.put(`/artist/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return successHandler(res);
     } catch (error) {
       return errorHandler(error);

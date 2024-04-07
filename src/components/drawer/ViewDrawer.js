@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Drawer } from "antd";
 
 function ViewDrawer({ open, setOpen, data }) {
-  console.log("data", data);
   return (
     <Drawer
       title="Artiest Info"

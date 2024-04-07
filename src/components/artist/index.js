@@ -5,6 +5,8 @@ import ArtiestList from "./ArtiestList";
 const { Search } = Input;
 function Artiest() {
   const [open, setOpen] = useState(false);
+  const [addFlag, setAddFlag] = useState(false)
+
 
   return (
     <div className="w-full p-5">
@@ -28,9 +30,9 @@ function Artiest() {
             Create
           </Button>
         </div>
-        <ArtiestList />
+        <ArtiestList addFlag={addFlag}  />
       </div>
-      <AddEditDrawer open={open} setOpen={setOpen} />
+      <AddEditDrawer open={open} setOpen={setOpen} setEditFlag={setAddFlag}  />
     </div>
   );
 }
