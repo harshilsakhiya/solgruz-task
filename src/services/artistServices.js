@@ -20,10 +20,18 @@ class ArtistServices {
       return errorHandler(error);
     }
   };
+  static artiestListById = async (data) => {
+    try {
+      const res = await axiosInstance.get(`/artist/${data}`);
+      return successHandler(res);
+    } catch (error) {
+      return errorHandler(error);
+    }
+  };
   static artiestDelete = async (data) => {
     try {
       const res = await axiosInstance.delete(`/artist/${data}`);
-      return res?.data;
+      return successHandler(res);
     } catch (error) {
       return errorHandler(error);
     }

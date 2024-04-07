@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Table, Button } from "antd";
 import { toast } from "react-toastify";
 import ArtistServices from "../../services/artistServices";
+import ViewDrawer from "../drawer/ViewDrawer";
 
 export default function ArtiestList() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [artiestInfoData, setArtiestInfoData] = useState();
+  const [open, setOpen] = useState(false);
 
   const [pagination, setPagination] = useState({
     current: 1,
@@ -31,15 +34,23 @@ export default function ArtiestList() {
     }
   };
 
-  const handleTableChange = (pagination) => {
-    setPagination(pagination);
-  };
-
   const handleDelete = async (data) => {
     try {
       const res = await ArtistServices.artiestDelete(data?._id);
       toast.success(res?.message);
       fetchData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const artiestInfo = async (data) => {
+    try {
+      const res = await ArtistServices.artiestListById(data?._id);
+      if (res?.success === true) {
+        setArtiestInfoData(res?.data);
+        setOpen(true);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -67,7 +78,7 @@ export default function ArtiestList() {
         <div className="flex ">
           <Button
             type="primary"
-            // onClick={() => handleActionClick(record)}
+            onClick={() => artiestInfo(record)}
             className="mx-2 bg-yellow-400"
           >
             Info{" "}
@@ -75,7 +86,7 @@ export default function ArtiestList() {
           <Button
             type="primary"
             // onClick={() => handleActionClick(record)}
-            className="mx-2 bg-yellow-400"
+            className="mx-2 "
           >
             Update
           </Button>
@@ -91,12 +102,16 @@ export default function ArtiestList() {
     },
   ];
   return (
-    <Table
-      dataSource={data}
-      columns={columns}
-      loading={loading}
-      pagination={pagination}
-      onChange={handleTableChange}
-    />
+    <>
+      <Table
+        dataSource={data}
+        columns={columns}
+        loading={loading}
+        pagination={pagination}
+        onChange={(pagination) => setPagination(pagination)}
+      />
+
+      <ViewDrawer open={open} setOpen={setOpen} data={artiestInfoData} />
+    </>
   );
 }

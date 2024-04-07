@@ -3,7 +3,7 @@ import { Input, Button, Drawer, Checkbox } from "antd";
 import ArtistServices from "../../services/artistServices";
 import { toast } from "react-toastify";
 
-function AddEditDrawer({ open, setOpen }) {
+function AddEditDrawer({ open, setOpen ,data}) {
   const [inputValue, setInputValue] = useState({});
   const [coverImage, setCoverImage] = useState();
   const [roleChecked, setRoleChecked] = useState(false);
