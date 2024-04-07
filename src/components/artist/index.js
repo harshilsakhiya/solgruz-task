@@ -19,10 +19,8 @@ function Artiest() {
             size="large"
             className="w-1/5"
             options={[
-              { value: "jack", label: "Jack" },
-              { value: "lucy", label: "Lucy" },
-              { value: "Yiminghe", label: "yiminghe" },
-              { value: "disabled", label: "Disabled", disabled: true },
+              { value: "Artist", label: "Artist" },
+              { value: "Other", label: "Other" },
             ]}
           />
           <DatePicker size="large" />

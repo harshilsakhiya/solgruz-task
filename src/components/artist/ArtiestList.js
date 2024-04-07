@@ -3,18 +3,27 @@ import { Table, Button } from "antd";
 import { toast } from "react-toastify";
 import ArtistServices from "../../services/artistServices";
 import ViewDrawer from "../drawer/ViewDrawer";
+import AddEditDrawer from "../drawer/AddEditDrawer";
 
 export default function ArtiestList() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [artiestInfoData, setArtiestInfoData] = useState();
   const [open, setOpen] = useState(false);
+  const [editDrawer, setEditDrawer] = useState(false);
+  const [editFlag, setEditFlag] = useState(false);
 
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
     total: 0,
   });
+
+  useEffect(() => {
+    if (editFlag) {
+      fetchData();
+    }
+  }, [editFlag]);
 
   useEffect(() => {
     fetchData();
@@ -55,6 +64,18 @@ export default function ArtiestList() {
       console.error("Error fetching data:", error);
     }
   };
+
+  const artiestUpdate = async (data) => {
+    try {
+      const res = await ArtistServices.artiestListById(data?._id);
+      if (res?.success === true) {
+        setArtiestInfoData(res?.data);
+        setEditDrawer(true);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const columns = [
     {
       title: "Image",
@@ -85,7 +106,7 @@ export default function ArtiestList() {
           </Button>
           <Button
             type="primary"
-            // onClick={() => handleActionClick(record)}
+            onClick={() => artiestUpdate(record)}
             className="mx-2 "
           >
             Update
@@ -112,6 +133,14 @@ export default function ArtiestList() {
       />
 
       <ViewDrawer open={open} setOpen={setOpen} data={artiestInfoData} />
+
+      <AddEditDrawer
+        open={editDrawer}
+        setOpen={setEditDrawer}
+        data={artiestInfoData}
+        setArtiestInfoData={setArtiestInfoData}
+        setEditFlag={setEditFlag}
+      />
     </>
   );
 }

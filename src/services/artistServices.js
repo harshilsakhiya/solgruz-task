@@ -10,6 +10,14 @@ class ArtistServices {
       return errorHandler(error);
     }
   };
+  static updateArtiest = async (data, id) => {
+    try {
+      const res = await axiosInstance.put(`/artist/${id}`, data);
+      return successHandler(res);
+    } catch (error) {
+      return errorHandler(error);
+    }
+  };
   static artiestList = async (data) => {
     try {
       const res = await axiosInstance.get(

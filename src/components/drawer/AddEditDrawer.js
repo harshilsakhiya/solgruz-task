@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button, Drawer, Checkbox } from "antd";
 import ArtistServices from "../../services/artistServices";
 import { toast } from "react-toastify";
 
-function AddEditDrawer({ open, setOpen ,data}) {
+function AddEditDrawer({
+  open,
+  setOpen,
+  data,
+  setArtiestInfoData,
+  setEditFlag,
+}) {
   const [inputValue, setInputValue] = useState({});
   const [coverImage, setCoverImage] = useState();
   const [roleChecked, setRoleChecked] = useState(false);
@@ -22,6 +28,17 @@ function AddEditDrawer({ open, setOpen ,data}) {
     const file = e.target.files[0];
     setCoverImage(file);
   };
+
+  useEffect(() => {
+    if (data) {
+      setInputValue({
+        artistname: data?.artistname,
+        biography: data?.biography,
+      });
+      setCoverImage(data?.image);
+      setRoleChecked(data?.artistrole === "Artist" ? true : false);
+    }
+  }, [data]);
 
   const validateForm = () => {
     let formIsValid = true;
@@ -53,9 +70,14 @@ function AddEditDrawer({ open, setOpen ,data}) {
       Artist.append("biography", inputValue.biography);
       Artist.append("image", coverImage);
       Artist.append("artistroles", roleChecked ? "Artist" : "Other");
+
       try {
-        const res = await ArtistServices.addArtiest(Artist);
+        const res =
+          data === undefined
+            ? await ArtistServices.addArtiest(Artist)
+            : await ArtistServices.updateArtiest(Artist, data?._id);
         if (res?.success === true) {
+          setEditFlag?.(true);
           toast.success(res?.message);
           setLoading(false);
           setOpen(false);
@@ -69,6 +91,7 @@ function AddEditDrawer({ open, setOpen ,data}) {
       }
     }
   };
+
   return (
     <Drawer
       title="Create Event"
@@ -85,6 +108,7 @@ function AddEditDrawer({ open, setOpen ,data}) {
             size="large"
             placeholder="Enter Artist Name"
             name="artistname"
+            value={inputValue.artistname}
             onChange={handleChange}
           />
           <span className="text-red-500"> {errors["artistname"]}</span>
@@ -99,6 +123,15 @@ function AddEditDrawer({ open, setOpen ,data}) {
             name="image"
             onChange={(e) => imageChange(e)}
           />
+          {data && (
+            <img
+              className="col-4"
+              src={"https://test.solz.me/" + coverImage}
+              alt="coverImage"
+              width={50}
+            />
+          )}
+
           <span className="text-red-500"> {errors["image"]}</span>
         </div>
         <div className="flex gap-1">
@@ -109,32 +142,39 @@ function AddEditDrawer({ open, setOpen ,data}) {
             size="large"
             placeholder="Enter Artist Biography"
             name="biography"
+            value={inputValue.biography}
             onChange={handleChange}
           />
           <span className="text-red-500"> {errors["biography"]}</span>
         </div>
-
         <div className="flex gap-1">
-          <Checkbox onChange={(e) => setRoleChecked(e.target.checked)}>
+          <Checkbox
+            onChange={(e) => setRoleChecked(e.target.checked)}
+            checked={roleChecked}
+          >
             Artist
           </Checkbox>
         </div>
-
         <div className="flex gap-2.5 justify-center">
           <Button
             type="default"
             className=" h-10 text-md min-w-[100px]"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              setArtiestInfoData?.("");
+            }}
           >
             Cancel
           </Button>
           <Button
             type="primary"
             className="bg-[#283791] h-10 text-md min-w-[100px]"
-            onClick={() => addArtiest()}
+            onClick={() => {
+              addArtiest();
+            }}
             disabled={loading}
           >
-            Save
+            {data ? "Update" : "Save"}
           </Button>
         </div>
       </div>
