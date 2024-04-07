@@ -18,6 +18,14 @@ function Sidebar() {
       >
         Dashboard
       </p>
+      <p
+        className={`text-xl py-4 px-4 rounded-md ${
+          pathname === "event" ? " bg-blue-300 " : "cursor-pointer"
+        }`}
+        onClick={() => navigate("/event")}
+      >
+        Event
+      </p>
     </div>
   );
 }

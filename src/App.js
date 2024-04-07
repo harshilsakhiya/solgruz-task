@@ -8,6 +8,8 @@ import SignInSignUp from "./pages/SIgnInSIgnUp";
 import Dashboard from "./pages/dashboard";
 import PublicRoute from "./helper/PublicRoute";
 import PrivateRoute from "./helper/PrivateRoute";
+import Artist from "./pages/artist/Artist";
+
 
 const withPrivacy = (component) => {
   return <PrivateRoute component={component} />;
@@ -36,6 +38,7 @@ function App() {
           </Route>
           <Route element={<Layout />}>
             <Route path="/dashboard" element={withPrivacy(Dashboard)} />
+            <Route path="/event" element={withPrivacy(Artist)} />
           </Route>
         </Routes>
       </BrowserRouter>
